@@ -1,0 +1,9 @@
+%% add tools for path
+code:add_pathz("/Users/andrzejsliwa/.erlang_tools/ebin").
+code:add_pathz("/Users/andrzejsliwa/.erlang_tools/deps/sync/ebin").
+
+%% load user_default
+code:load_abs("/Users/andrzejsliwa/.erlang_tools/ebin/user_default").
+
+%% add Wrangler and Distel to paths for Emacs.
+code:add_pathsz(["/Users/andrzejsliwa/.emacs.d/personal/vendor/wrangler/ebin"]).
