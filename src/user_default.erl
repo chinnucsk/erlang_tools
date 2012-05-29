@@ -22,8 +22,8 @@
 %% +-----------------------------------------------------------------+
 p(String)        -> io:format(String).
 p(String, Args)  -> io:format(String, Args).
-pe(String)       -> p([String|"~n"]).
-pe(String, Args) -> p([String|"~n"], Args).
+pe(String)       -> p(lists:append(String, "~n")).
+pe(String, Args) -> p(lists:append(String, "~n"), Args).
 yy(Term)         -> pe("~w", [Term]).
 yp(Term)         -> pe("~p", [Term]).
 reload()         -> sync:go().
@@ -59,6 +59,7 @@ format_params(Params) ->
 %% +-----------------------------------------------------------------+
 %% | DEBUG FUNCTIONS                                                 |
 %% +-----------------------------------------------------------------+
+
 debug_on() ->
     {ok, _} = nested_tracer(),
     {ok, _} = dbg:p(all, call),
@@ -67,6 +68,7 @@ debug_on() ->
 debug(Module)
   when is_atom(Module) ->
     debug(Module, user_defualt:debug_options()).
+
 debug(Module, DebugOptions)
   when is_atom(Module),
        is_list(DebugOptions) ->
@@ -96,7 +98,7 @@ debug_off(Module, Function)
     ok.
 
 debug_options() ->
-    [{'_',[],[{return_trace},{exception_trace}]}].
+    [{'_', [], [{return_trace}, {exception_trace}]}].
 
 %% +-----------------------------------------------------------------+
 %% | HELP MENU                                                       |
