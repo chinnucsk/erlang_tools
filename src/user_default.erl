@@ -1,12 +1,11 @@
 -module(user_default).
 
-%% Interface exports
 -export([help/0]).
 
 -export([p/1, p/2]).
 -export([pe/1, pe/2]).
 -export([yy/1, yp/1]).
--export([reload/0]).
+-export([reloader/0]).
 
 -export([debug/1]).
 -export([debug/2]).
@@ -26,12 +25,12 @@ pe(String)       -> p(lists:append(String, "~n")).
 pe(String, Args) -> p(lists:append(String, "~n"), Args).
 yy(Term)         -> pe("~w", [Term]).
 yp(Term)         -> pe("~p", [Term]).
-reload()         -> sync:go().
+reloader()       -> sync:go().
 
 %% +-----------------------------------------------------------------+
 %% | NESTED TRACER                                                   |
 %% +-----------------------------------------------------------------+
-nested({trace, _Pid, call, {Mod, Fun, Params}}, Level) ->
+nested({trace, _Pid, call,{Mod, Fun, Params}}, Level) ->
     NewParams = format_params(Params),
     io:format("~s~p:~p~s\n", [fill_spaces(Level), Mod, Fun, NewParams]),
     Level + 1;
@@ -108,7 +107,7 @@ help() ->
     shell_default:help(),
     pe(""),
     pe("** custom commands:"),
-    pe("reload()         -- run code reloader"),
+    pe("reloader()       -- run code reloader"),
     pe("p(String)        -- print string"),
     pe("p(String, Args)  -- print string with format"),
     pe("pe(String)       -- print string with ~n"),
